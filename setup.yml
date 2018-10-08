@@ -26,6 +26,7 @@
     
     yarn:
       - '@angular/cli'
+      - '@vue/cli'
 
     tree:
       - source/perso
@@ -49,13 +50,9 @@
       aur: 
         name: "{{ item }}"
         state: present
-      # TODO change to YARN
-    - name: Install npm global packages
-      npm: 
-        name: "{{ item }}"
-        global: yes
+    - name: Install yarn global packages
+      shell: yarn global add "{{ item }}"
       with_items: "{{ yarn }}"
-      become: yes
     - name: Create dotfile symlinks
       file:
         src: '{{ item.src }}'
