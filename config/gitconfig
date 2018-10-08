@@ -1,0 +1,11 @@
+[user]
+	email = benjamin.levesque@live.fr
+	name = Benjamin LEVESQUE
+
+[includeIf "gitdir:~/source/work/"]
+    path = ~/source/work/.gitconfig
+[core]
+	editor = code --wait
+
+[push]
+	default = simple

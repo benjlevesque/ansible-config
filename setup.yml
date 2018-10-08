@@ -1,0 +1,52 @@
+---
+- hosts: localhost  
+  connection: local
+  vars:
+    official_packages:
+      - docker
+      - docker-compose
+      - gnome-system-monitor
+      - keepass
+      - keepass-plugin-keeagent
+      - make
+      - nodejs
+      - npm
+      - pacaur
+      # - oh-my-zsh
+      - tree
+      - visual-studio-code-bin
+      - yarn
+      - zsh
+    unofficial_packages:
+      - dropbox
+      - gnome-shell-extension-system-monitor-git
+      
+    tree:
+      - source/perso
+      - source/utils
+      - source/work
+      
+  tasks:
+    - name: Install Packages
+      with_items: "{{ official_packages }}"
+      pacman: 
+        name: "{{ item }}"
+        state: present
+      become: yes
+    - name: Install Unofficial Packages
+      with_items: "{{ unofficial_packages }}"
+      aur : 
+        name: "{{ item }}"
+        state: present
+    - name: Create dotfile symlinks
+      file:
+        src: '{{ item.src }}'
+        dest: ~/.{{ item.path }}
+        state: link
+        force: yes
+      with_filetree: config/
+    - name : Create file structure
+      file: 
+        path: "~/{{ item }}"
+        state: directory
+      with_items: "{{ tree }}"

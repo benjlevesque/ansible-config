@@ -1,0 +1,19 @@
+#!/bin/bash -e
+
+if command -v ansible 2 > /dev/null; then 
+    echo "Ansible already installed."
+else
+    echo "Installing ansible"
+    sudo pacman ansible
+fi
+
+echo "Running ansible..."
+exec ansible-playbook setup.yml --ask-become-pass
+
+
+echo ""
+echo ""
+echo "Done!"
+echo ""
+echo ""
+echo "Restart your terminal now"
