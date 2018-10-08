@@ -5,6 +5,9 @@
     official_packages:
       - docker
       - docker-compose
+      - dotnet-runtime
+      - dotnet-sdk
+      - gcc
       - gnome-system-monitor
       - keepass
       - keepass-plugin-keeagent
@@ -12,7 +15,7 @@
       - nodejs
       - npm
       - pacaur
-      # - oh-my-zsh
+      - python
       - tree
       - visual-studio-code-bin
       - yarn
@@ -20,24 +23,39 @@
     unofficial_packages:
       - dropbox
       - gnome-shell-extension-system-monitor-git
-      
+    
+    yarn:
+      - '@angular/cli'
+
     tree:
       - source/perso
       - source/utils
       - source/work
+
+    vscode_extensions:
+      - maptz.camelcasenavigation
+      - ms-vsliveshare.vsliveshare
+      - vscoss.vscode-ansible
+      - ms-vscode.csharp
       
   tasks:
     - name: Install Packages
-      with_items: "{{ official_packages }}"
       pacman: 
-        name: "{{ item }}"
+        name: "{{ official_packages }}"
         state: present
       become: yes
     - name: Install Unofficial Packages
       with_items: "{{ unofficial_packages }}"
-      aur : 
+      aur: 
         name: "{{ item }}"
         state: present
+      # TODO change to YARN
+    - name: Install npm global packages
+      npm: 
+        name: "{{ item }}"
+        global: yes
+      with_items: "{{ yarn }}"
+      become: yes
     - name: Create dotfile symlinks
       file:
         src: '{{ item.src }}'
@@ -45,8 +63,13 @@
         state: link
         force: yes
       with_filetree: config/
-    - name : Create file structure
+    - name: Create file structure
       file: 
         path: "~/{{ item }}"
         state: directory
       with_items: "{{ tree }}"
+    - name: Install VS Code Extensions
+      shell: code --install-extension "{{ item }}"
+      with_items: "{{ vscode_extensions }}"
+      register: vscode_result
+      changed_when: "'already installed' not in vscode_result.stdout"
