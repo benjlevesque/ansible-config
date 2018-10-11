@@ -1,7 +1,7 @@
----
-- hosts: localhost  
+- hosts: localhost
   connection: local
   vars:
+    username: benji
     official_packages:
       - docker
       - docker-compose
@@ -16,17 +16,23 @@
       - npm
       - pacaur
       - python
+      - tmux
       - tree
       - visual-studio-code-bin
       - yarn
       - zsh
-    unofficial_packages:
+    aur_packages:
+      - google-chrome
       - dropbox
       - gnome-shell-extension-system-monitor-git
-    
+      - tmux-bash-completion
+      - circleci-cli
+      - kubernetes-bin
+      - kubernetes-helm
+
     yarn:
-      - '@angular/cli'
-      - '@vue/cli'
+      - "@angular/cli"
+      - "@vue/cli"
 
     tree:
       - source/perso
@@ -38,16 +44,17 @@
       - ms-vsliveshare.vsliveshare
       - vscoss.vscode-ansible
       - ms-vscode.csharp
-      
+      - esbenp.prettier-vscode
+
   tasks:
     - name: Install Packages
-      pacman: 
+      pacman:
         name: "{{ official_packages }}"
         state: present
       become: yes
-    - name: Install Unofficial Packages
-      with_items: "{{ unofficial_packages }}"
-      aur: 
+    - name: Install AUR Packages
+      with_items: "{{ aur_packages }}"
+      aur:
         name: "{{ item }}"
         state: present
     - name: Install yarn global packages
@@ -55,13 +62,13 @@
       with_items: "{{ yarn }}"
     - name: Create dotfile symlinks
       file:
-        src: '{{ item.src }}'
+        src: "{{ item.src }}"
         dest: ~/.{{ item.path }}
         state: link
         force: yes
       with_filetree: config/
     - name: Create file structure
-      file: 
+      file:
         path: "~/{{ item }}"
         state: directory
       with_items: "{{ tree }}"
@@ -70,3 +77,31 @@
       with_items: "{{ vscode_extensions }}"
       register: vscode_result
       changed_when: "'already installed' not in vscode_result.stdout"
+
+    - name: Create Docker groups
+      become: yes
+      group:
+        name: docker
+        state: present
+      tags:
+        - docker
+
+    # it is required to log out and log back in for this step to be effective.
+    - name: Add Docker to sudoers
+      become: yes
+      user:
+        append: yes
+        groups: docker
+        name: "{{ username }}"
+      tags:
+        - docker
+
+    - name: Enable docker daemon
+      service: name=docker state=started enabled=yes
+      tags:
+        - docker
+
+# TODO
+# vs code config
+# custom theme
+# ansible vault for credentials
