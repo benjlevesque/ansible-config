@@ -9,6 +9,8 @@
       - dotnet-sdk
       - gcc
       - gnome-system-monitor
+      - httpie
+      - jq
       - keepass
       - keepass-plugin-keeagent
       - make
@@ -16,23 +18,34 @@
       - npm
       - pacaur
       - python
+      - python-pip
       - tmux
       - tree
       - visual-studio-code-bin
+      - xclip
       - yarn
       - zsh
     aur_packages:
-      - google-chrome
-      - dropbox
-      - gnome-shell-extension-system-monitor-git
-      - tmux-bash-completion
+      - aws-cli
+      - calibre
       - circleci-cli
+      - dropbox
+      - google-chrome
+      - gnome-shell-extension-system-monitor-git
       - kubernetes-bin
       - kubernetes-helm
-
+      - ngrok
+      - signal
+      - slack-desktop
+      - tmux-bash-completion
+      
     yarn:
       - "@angular/cli"
       - "@vue/cli"
+      - commitizen
+      - conventional-changelog
+      - create-react-app
+      - static      
 
     tree:
       - source/perso
@@ -40,11 +53,26 @@
       - source/work
 
     vscode_extensions:
-      - maptz.camelcasenavigation
-      - ms-vsliveshare.vsliveshare
-      - vscoss.vscode-ansible
-      - ms-vscode.csharp
+      - brunnerh.insert-unicode
+      - cmstead.jsrefactor
+      - dbaeumer.vscode-eslint
+      - dsznajder.es7-react-js-snippets
+      - eamodio.gitlens
+      - eg2.tslint
       - esbenp.prettier-vscode
+      - fabiospampinato.vscode-todo-plus
+      - flowtype.flow-for-vscode
+      - formulahendry.auto-rename-tag
+      - joshpeng.sublime-babel-vscode
+      - KnisterPeter.vscode-commitizen
+      - letrieu.expand-region
+      - maptz.camelcasenavigation
+      - ms-vscode.csharp
+      - ms-vsliveshare.vsliveshare
+      - msjsdiag.debugger-for-chrome
+      - tomoki1207.vscode-gfm-preview
+      - vscoss.vscode-ansible
+      - wix.vscode-import-cost
 
   tasks:
     - name: Install Packages
@@ -60,13 +88,14 @@
     - name: Install yarn global packages
       shell: yarn global add "{{ item }}"
       with_items: "{{ yarn }}"
+      become: yes
     - name: Create dotfile symlinks
       file:
         src: "{{ item.src }}"
         dest: ~/.{{ item.path }}
         state: link
         force: yes
-      with_filetree: config/
+      with_filetree: dotfiles/
     - name: Create file structure
       file:
         path: "~/{{ item }}"
@@ -105,3 +134,10 @@
 # vs code config
 # custom theme
 # ansible vault for credentials
+
+# subliminal
+# vlc
+# mpv
+# https://github.com/vayan/autosub-mpv
+# pip : http-prompt
+# i3 !!

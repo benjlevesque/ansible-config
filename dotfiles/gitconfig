@@ -1,0 +1,18 @@
+[user]
+	email = 14175665+benjlevesque@users.noreply.github.com
+	name = Benjamin LEVESQUE
+	signingkey = 765E3CB147AA4D4A
+
+[includeIf "gitdir:~/source/work/"]
+    path = ~/source/work/.gitconfig
+[core]
+    editor = code --wait
+
+[push]
+	default = current
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+[commit]
+	gpgsign = true
+[github]
+	user = benjlevesque

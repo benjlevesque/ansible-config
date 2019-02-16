@@ -1,0 +1,9 @@
+config/*
+
+!config/i3
+!config/compton
+!config/Xresources
+!config/rofi
+!config/Code/User/
+!config/mpv/mpv.conf
+
