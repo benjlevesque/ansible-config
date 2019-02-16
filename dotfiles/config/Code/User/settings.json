@@ -1,0 +1,31 @@
+{
+  "window.menuBarVisibility": "toggle",
+  "workbench.activityBar.visible": true,
+  "git.autofetch": true,
+  "breadcrumbs.enabled": true,
+  "[html]": {
+    "editor.formatOnSave": false,
+    "editor.formatOnType": false
+  },
+  "[yaml]": {
+    "editor.formatOnSave": false,
+    "editor.formatOnType": false
+  },
+  "window.zoomLevel": 0,
+  "terminal.integrated.rendererType": "dom",
+  "npm.packageManager": "yarn",
+  "tslint.packageManager": "yarn",
+  "eslint.packageManager": "yarn",
+  "editor.formatOnSave": true,
+  "extensions.ignoreRecommendations": false,
+  "editor.tabSize": 2,
+  "terminal.integrated.splitCwd": "initial",
+  "tslint.autoFixOnSave": [
+    "no-var-keyword",
+    "ordered-imports",
+    "member-access",
+    "object-literal-sort-keys"
+  ],
+  "emmet.showExpandedAbbreviation": "inMarkupAndStylesheetFilesOnly",
+  "typescript.updateImportsOnFileMove.enabled": "always"
+}
