@@ -41,7 +41,8 @@ set $urgent-bg-color     #E53935
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec dbus-launch termite
+#bindsym $mod+Return exec dbus-launch termite
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -54,6 +55,9 @@ bindsym $mod+Shift+q kill
 #bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 #bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 800 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System San Francisco Display 18"
 bindsym $mod+d exec  --no-startup-id rofi -show run -theme "Arc-Dark"
+bindsym $mod+p exec  --no-startup-id rofi -modi "pass:~/.bin/rofi-pass.sh" -show pass -theme "Arc-Dark"
+bindsym Print exec  --no-startup-id rofi -modi "screenshot:~/.bin/rofi-screenshot.sh" -show screenshot -theme "Arc-Dark"
+
 #bindsym $mod+d exec lighthouse | sh
 
 # change focus
@@ -100,6 +104,9 @@ bindsym $mod+Shift+space floating toggle
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
 
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
 # focus the parent container
 bindsym $mod+a focus parent
 
@@ -107,16 +114,19 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 # lock screen
-bindsym $mod+shift+x exec i3lock-fancy -p -- scrot
-exec --no-startup-id xautolock -time 1 -locker "i3lock-fancy -- scrot" &
+bindsym $mod+x exec i3lock-fancy -p -- scrot
+exec --no-startup-id xautolock -time 5 -corners "+-0+"  -locker "i3lock-fancy -- scrot" &
 
+# Screenshots
+#bindsym Print exec scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f ~/Pictures/Screenshots/'
+#bindsym Control+Print exec gnome-screenshot -i
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1 "
-set $ws2 "2 "
-set $ws3 "3 "
-set $ws4 "4 "
+set $ws1 "1 "
+set $ws2 "2 "
+set $ws3 "3 "
+set $ws4 "4 "
 set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
@@ -150,8 +160,14 @@ bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
 # Assign workspaces to programs
-assign [class="Google-chrome"] $ws3
-assign [class="Code"] $ws4
+assign [class="Google-chrome"] $ws2
+assign [class="Code"] $ws3
+assign [class="Slack"] $ws4
+
+# window rules
+for_window [class="Pavucontrol"] floating enable, border normal
+for_window [class="Pinentry"] floating enable, border normal
+for_window [class="Slack" title="Slack Call Minipanel"] move scratchpad
 
 
 # reload the configuration file
@@ -190,10 +206,10 @@ bindsym $mod+r mode "resize"
 
 # window colors
 #                       border              background         text                 indicator
-client.focused          $bg-color           $bg-color          $text-color          #00ff00
-client.unfocused        $inactive-bg-color $inactive-bg-color $inactive-text-color #00ff00
-client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-color #00ff00
-client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
+client.focused          $bg-color           $bg-color          $text-color          $bg-color 
+client.unfocused        $inactive-bg-color $inactive-bg-color $inactive-text-color  $bg-color
+client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-color  $bg-color
+client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          $bg-color
 
 #hide_edge_borders both
 
@@ -230,37 +246,10 @@ set $statussig SIGUSR1
 
 # Amount to increase/decrease volume as a percentage (used with -i, -d)
 set $volumestep 10
-
-# alsa-utils settings when not using pulseaudio-utils
-#
-# To configure a default card, see https://www.alsa-project.org/main/index.php/Asoundrc
-#
-# Card number to control. (used with -a and -c)
-#   If not specified, i3-volume will let `amixer` use a default.
-#   List cards: aplay -l
-#set $alsacard 1
-
-# Uncomment to use alsa-utils (append "-c $alsacard" without quotes to override default card)
-#bindsym XF86AudioRaiseVolume exec $volumepath/volume -anp -i $volumestep -t $statuscmd -u $statussig
-#bindsym XF86AudioLowerVolume exec $volumepath/volume -anp -d $volumestep -t $statuscmd -u $statussig
-#bindsym XF86AudioMute        exec $volumepath/volume -amn -t $statuscmd -u $statussig
-
-# pulseaudio-utils settings when not using alsa-utils
-#
-# Symbolic name for sink (numeric index not supported) (used with -s $sinkname)
-#   Recommended: comment out this setting and omit the -s option to use default sink
-#   List sink names: pacmd list-sinks | awk -F "[<>]" '/^\s+name: <.*>/{print $2}'
-#set $sinkname alsa_output.pci-0000_00_1b.0.analog-stereo
-
-# Using pulseaudio-utils (append "-s $sinkname" without quotes to override default sink)
 bindsym XF86AudioRaiseVolume exec $volumepath/volume -np -i $volumestep -t $statuscmd -u $statussig -y
 bindsym XF86AudioLowerVolume exec $volumepath/volume -np -d $volumestep -t $statuscmd -u $statussig -y
 bindsym XF86AudioMute        exec $volumepath/volume -mn -t $statuscmd -u $statussig -y
 
-# Pulse Audio controls
-# bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +5% #increase sound volume
-# bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -5% #decrease sound volume
-# bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 1 toggle # mute sound
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
@@ -277,9 +266,12 @@ bindsym XF86AudioPrev exec playerctl previous
 
 
 exec compton
-exec --no-startup-id xsetroot -solid #2f343f
+# exec --no-startup-id xsetroot -solid #2f343f
+# set wallpaper
+exec_always feh --bg-scale /home/benji/Pictures/Wallpapers/request3.png
 
-exec i3-sensible-terminal
-exec google-chrome-stable
-#exec_always xrandr --dpi 200
-#exec_always xrandr --output eDP1 --mode 1920x1080 --pos 0x0 --rotate normal --output VGA1 --mode 1920x1080 --right-of eDP1 --rotate normal
+# Startup apps
+exec dbus-launch termite 
+exec --no-startup-id i3-msg 'exec /usr/bin/google-chrome-stable --profile-directory="Profile 1"'
+#exec --no-startup-id i3-msg 'workspace $ws2; exec /usr/bin/google-chrome-stable --profile-directory=Default && sleep 0.5 && i3-msg "move container to workspace $ws5" && i3-msg workspace $ws1'
+# exec_always eval $(gnome-keyring-daemon -r -d)
