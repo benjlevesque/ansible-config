@@ -5,10 +5,7 @@
     official_packages:
       - docker
       - docker-compose
-      - dotnet-runtime
-      - dotnet-sdk
       - gcc
-      - gnome-system-monitor
       - httpie
       - jq
       - keepass
@@ -19,31 +16,34 @@
       - pacaur
       - python
       - python-pip
-      - tmux
       - tree
       - visual-studio-code-bin
       - xclip
       - yarn
       - zsh
     aur_packages:
+      - arc-gtk-theme
       - aws-cli
       - calibre
       - circleci-cli
+      - compton
+      - dmenu
       - dropbox
+      - feh
       - google-chrome
-      - gnome-shell-extension-system-monitor-git
+      - i3lock-fancy-git
+      - maim
+      - otf-font-awesome
       - kubernetes-bin
       - kubernetes-helm
       - ngrok
-      - signal
+      - rofi
+      - scrot
       - slack-desktop
-      - tmux-bash-completion
+      - xautolock
+      - xorg.xbacklight
       
     yarn:
-      - "@angular/cli"
-      - "@vue/cli"
-      - commitizen
-      - conventional-changelog
       - create-react-app
       - static      
 
@@ -53,25 +53,34 @@
       - source/work
 
     vscode_extensions:
+      - atlassian.atlascode
       - brunnerh.insert-unicode
       - cmstead.jsrefactor
+      - codezombiech.gitignore
       - dbaeumer.vscode-eslint
       - dsznajder.es7-react-js-snippets
       - eamodio.gitlens
-      - eg2.tslint
       - esbenp.prettier-vscode
       - fabiospampinato.vscode-todo-plus
-      - flowtype.flow-for-vscode
       - formulahendry.auto-rename-tag
+      - gamunu.vscode-yarn
+      - hbenl.vscode-test-explorer
+      - ipedrazas.kubernetes-snippets
       - joshpeng.sublime-babel-vscode
-      - KnisterPeter.vscode-commitizen
-      - letrieu.expand-region
+      - kumar-harsh.graphql-for-vscode
+      - legfrey.javascript-test-runner
       - maptz.camelcasenavigation
-      - ms-vscode.csharp
+      - mikestead.dotenv
+      - ms-kubernetes-tools.vscode-kubernetes-tools
+      - ms-vscode.vscode-typescript-tslint-plugin
       - ms-vsliveshare.vsliveshare
-      - msjsdiag.debugger-for-chrome
-      - tomoki1207.vscode-gfm-preview
-      - vscoss.vscode-ansible
+      - ms-vsliveshare.vsliveshare-audio
+      - Orta.vscode-jest
+      - Prisma.vscode-graphql
+      - rafaelmaiolla.remote-vscode
+      - redhat.vscode-yaml
+      - rtbenfield.vscode-jest-test-adapter
+      - VisualStudioExptTeam.vscodeintellicode
       - wix.vscode-import-cost
 
   tasks:
