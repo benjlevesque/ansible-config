@@ -4,8 +4,9 @@ Z_USER=benji
 # path to ansible config folder
 export ANSIBLE_CONFIG_PATH="~/ansible"
 
+export EDITOR=/usr/bin/vim
 export ZSH="/home/$Z_USER/.oh-my-zsh"
-export PATH="$PATH:$(yarn global bin):/home/$Z_USER/ansible/scripts:/home/$Z_USER/go/bin:/opt/dotnet:/home/benji/.local/bin"
+export PATH="$PATH:/usr/local/bin:/home/$Z_USER/ansible/scripts:/home/$Z_USER/go/bin:/opt/dotnet:/home/benji/.local/bin"
 
 export CDPATH=/home/benji/source/work:/home/benji/source/perso
 
@@ -15,22 +16,16 @@ ZSH_THEME="robbyrussell"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-COMPLETION_WAITING_DOTS="true"
+#COMPLETION_WAITING_DOTS="true"
 
 HIST_STAMPS="dd.mm.yyyy"
 
 plugins=(
   git
-  ng
   yarn
-  npm
   docker
-  docker-compose
   zsh-autosuggestions
   kubectl
-  helm
-  dotnet
-  httpie
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -53,12 +48,13 @@ alias cls="clear"
 #alias d="docker"
 alias y="yarn"
 alias git="hub"
+alias clip="xclip -selection c"
 
 # Web development
 alias nodecloc="cloc --exclude-dir node_modules,dist,package.json,package-lock.json"
 alias nodetree="tree -I '.git|node_modules|dist'"
+alias chrome="google-chrome-stable"
 
 # not needed every time, once is enough (change terminal color)
 #dconf write /org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/palette "['rgb(0,0,0)', 'rgb(221,0,0)', 'rgb(0,170,0)', 'rgb(170,85,0)', 'rgb(0,0,170)', 'rgb(170,0,170)', 'rgb(0,170,170)', 'rgb(170,170,170)', 'rgb(85,85,85)', 'rgb(255,85,85)', 'rgb(85,255,85)', 'rgb(255,255,85)', 'rgb(85,85,255)', 'rgb(255,85,255)', 'rgb(85,255,255)', 'rgb(255,255,255)']"
 
-eval "$(jira --completion-script-bash)"
