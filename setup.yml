@@ -138,7 +138,25 @@
       service: name=docker state=started enabled=yes
       tags:
         - docker
-
+    - name: Install services
+      with_filetree: services/
+      template: 
+        src: "{{ item.src }}" 
+        dest: "/etc/systemd/system/{{ item.path }}.service"
+      become: yes
+      tags:
+        - services
+    - name: Start services
+      with_filetree: services/
+      systemd: 
+        state: started 
+        name: "{{ item.path }}"
+        daemon_reload: yes
+      when: item.path != 'i3lock' # would lock screen
+      become: yes
+      tags:
+       - services
+        
 # TODO
 # vs code config
 # custom theme
@@ -150,3 +168,4 @@
 # https://github.com/vayan/autosub-mpv
 # pip : http-prompt
 # i3 !!
+# pass
