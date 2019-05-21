@@ -16,3 +16,5 @@
 	gpgsign = true
 [github]
 	user = benjlevesque
+[diff "gpg"]
+	textconv = gpg --no-tty --decrypt
