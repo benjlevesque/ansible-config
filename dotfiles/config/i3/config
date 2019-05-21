@@ -15,6 +15,7 @@ set $mod Mod4
 # is used in the bar {} block below.
 #font pango:System San Francisco Display 16
 font pango:RobotoMono Nerd Font Regular 8
+#font pango: M+ 1m, FontAwesome, Ionicons, 8 
 
 #font pango:monospace 14
 
@@ -54,10 +55,12 @@ bindsym $mod+Shift+q kill
 # installed.
 #bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 #bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 800 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System San Francisco Display 18"
-bindsym $mod+d exec  --no-startup-id rofi -show run -theme "Arc-Dark"
-bindsym $mod+p exec  --no-startup-id rofi -modi "pass:~/.bin/rofi-pass.sh" -show pass -theme "Arc-Dark"
-bindsym Print exec  --no-startup-id rofi -modi "screenshot:~/.bin/rofi-screenshot.sh" -show screenshot -theme "Arc-Dark"
-
+bindsym $mod+d exec  --no-startup-id rofi -show run 
+bindsym $mod+p exec  --no-startup-id rofi -show pass
+bindsym $mod+o exec  --no-startup-id rofi -show otp 
+bindsym Print exec  --no-startup-id rofi -show screenshot 
+bindsym $mod+Tab exec --no-startup-id rofi -show window 
+bindsym $mod+n exec --no-startup-id ~/.bin/rofi-wifi-menu.sh
 #bindsym $mod+d exec lighthouse | sh
 
 # change focus
@@ -106,7 +109,7 @@ bindsym $mod+space focus mode_toggle
 
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
-
+bindsym $mod+equal floating disable; floating enable
 # focus the parent container
 bindsym $mod+a focus parent
 
@@ -114,8 +117,9 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 # lock screen
-bindsym $mod+x exec i3lock-fancy -p -- scrot
-exec --no-startup-id xautolock -time 5 -corners "+-0+"  -locker "i3lock-fancy -- scrot" &
+#bindsym $mod+x exec i3lock-fancy -p -- scrot
+#exec --no-startup-id xautolock -time 5 -corners "+-0+"  -locker "i3lock-fancy -- scrot" &
+bindsym $mod+x exec i3lock
 
 # Screenshots
 #bindsym Print exec scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f ~/Pictures/Screenshots/'
@@ -219,7 +223,12 @@ bar {
         position top
         #status_command i3status
         status_command i3blocks -c /home/benji/.config/i3/i3blocks.conf
-#        font pango:monospace 10
+       # font pango:monospace 10
+        #font pango:FontAwesome 9
+        #font pango:DejaVu Sans Mono, Awesome 8
+	font pango:DejaVu Sans Mono 8
+
+
         colors {
 		background $bg-color
 	    	separator #757575
@@ -245,7 +254,7 @@ set $statuscmd i3status
 set $statussig SIGUSR1
 
 # Amount to increase/decrease volume as a percentage (used with -i, -d)
-set $volumestep 10
+set $volumestep 5
 bindsym XF86AudioRaiseVolume exec $volumepath/volume -np -i $volumestep -t $statuscmd -u $statussig -y
 bindsym XF86AudioLowerVolume exec $volumepath/volume -np -d $volumestep -t $statuscmd -u $statussig -y
 bindsym XF86AudioMute        exec $volumepath/volume -mn -t $statuscmd -u $statussig -y
@@ -263,6 +272,22 @@ bindsym XF86AudioPlay exec playerctl play
 bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
+
+# Shutdown
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id ~/.config/i3/i3exit lock, mode "default"
+    bindsym e exec --no-startup-id ~/.config/i3/i3exit logout, mode "default"
+    bindsym s exec --no-startup-id ~/.config/i3/i3exit suspend, mode "default"
+    bindsym h exec --no-startup-id ~/.config/i3/i3exit hibernate, mode "default"
+    bindsym r exec --no-startup-id ~/.config/i3/i3exit reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id ~/.config/i3/i3exit shutdown, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Escape mode "$mode_system"
 
 
 exec compton
