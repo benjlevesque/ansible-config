@@ -100,3 +100,10 @@ filetype plugin indent on    " required
 " NERDTree
 let NERDTreeShowHidden=1
 
+
+
+"
+" Keyboard shortcuts
+"
+map <C-n> :NERDTreeToggle<CR>
+
