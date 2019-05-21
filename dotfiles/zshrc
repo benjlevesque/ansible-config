@@ -6,7 +6,7 @@ export ANSIBLE_CONFIG_PATH="~/ansible"
 
 export EDITOR=/usr/bin/vim
 export ZSH="/home/$Z_USER/.oh-my-zsh"
-export PATH="$PATH:/usr/local/bin:/$HOME/ansible/scripts:/$HOME/go/bin:/opt/dotnet:/$HOME/.local/bin:/$HOME/.yarn/bin"
+export PATH="$PATH:/usr/local/bin:$HOME/ansible/scripts:$HOME/go/bin:/opt/dotnet:$HOME/.local/bin:$HOME/.yarn/bin:$HOME/.bin"
 
 export CDPATH=/home/benji/source/work:/home/benji/source/perso
 
