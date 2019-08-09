@@ -65,3 +65,4 @@ alias k="kubectl"
 
 # gnome-keyring-daemon --replace --daemonize --components=secrets,ssh,pcks11
 
+export GPG_TTY=$(tty)
